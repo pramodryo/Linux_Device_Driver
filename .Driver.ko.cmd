@@ -1,0 +1,1 @@
+savedcmd_/home/pramod/GitHub_Dir/Linux_Device_Driver/Driver.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T scripts/module.lds -o /home/pramod/GitHub_Dir/Linux_Device_Driver/Driver.ko /home/pramod/GitHub_Dir/Linux_Device_Driver/Driver.o /home/pramod/GitHub_Dir/Linux_Device_Driver/Driver.mod.o
