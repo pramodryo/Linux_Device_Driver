@@ -1,0 +1,1 @@
+savedcmd_/home/pramod/GitHub_Dir/Linux_Device_Driver/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/pramod/GitHub_Dir/Linux_Device_Driver/Module.symvers -T /home/pramod/GitHub_Dir/Linux_Device_Driver/modules.order -i Module.symvers -e 
