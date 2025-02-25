@@ -33,51 +33,28 @@ MODULE_INFO(retpoline, "Y");
 
 
 
-static const char ____versions[]
-__used __section("__versions") =
-	"\x18\x00\x00\x00\xe1\xbe\x10\x6b"
-	"_copy_to_user\0\0\0"
-	"\x1c\x00\x00\x00\x2b\x2f\xec\xe3"
-	"alloc_chrdev_region\0"
-	"\x14\x00\x00\x00\x32\xf7\x4f\x9a"
-	"cdev_init\0\0\0"
-	"\x14\x00\x00\x00\xeb\x19\x1b\x6a"
-	"cdev_add\0\0\0\0"
-	"\x18\x00\x00\x00\x4b\xde\x7b\x06"
-	"class_create\0\0\0\0"
-	"\x18\x00\x00\x00\xdf\xf1\xe7\x92"
-	"device_create\0\0\0"
-	"\x1c\x00\x00\x00\x63\xa5\x03\x4c"
-	"random_kmalloc_seed\0"
-	"\x18\x00\x00\x00\x46\x3d\xf7\x32"
-	"kmalloc_caches\0\0"
-	"\x18\x00\x00\x00\x60\xfd\x65\x95"
-	"kmalloc_trace\0\0\0"
-	"\x24\x00\x00\x00\x33\xb3\x91\x60"
-	"unregister_chrdev_region\0\0\0\0"
-	"\x18\x00\x00\x00\x60\xa4\xd4\x2e"
-	"class_destroy\0\0\0"
-	"\x10\x00\x00\x00\xba\x0c\x7a\x03"
-	"kfree\0\0\0"
-	"\x18\x00\x00\x00\xfa\x11\xcd\x96"
-	"device_destroy\0\0"
-	"\x14\x00\x00\x00\x66\xb7\x3e\x14"
-	"cdev_del\0\0\0\0"
-	"\x14\x00\x00\x00\xbb\x6d\xfb\xbd"
-	"__fentry__\0\0"
-	"\x10\x00\x00\x00\x7e\x3a\x2c\x12"
-	"_printk\0"
-	"\x1c\x00\x00\x00\xca\x39\x82\x5b"
-	"__x86_return_thunk\0\0"
-	"\x1c\x00\x00\x00\x48\x9f\xdb\x88"
-	"__check_object_size\0"
-	"\x18\x00\x00\x00\xc2\x9c\xc4\x13"
-	"_copy_from_user\0"
-	"\x18\x00\x00\x00\x72\x3f\x86\xba"
-	"module_layout\0\0\0"
-	"\x00\x00\x00\x00\x00\x00\x00\x00";
+static const struct modversion_info ____versions[]
+__used __section("__versions") = {
+	{ 0x122c3a7e, "_printk" },
+	{ 0xe3ec2f2b, "alloc_chrdev_region" },
+	{ 0xe78e8907, "cdev_init" },
+	{ 0x39f012c6, "cdev_add" },
+	{ 0x3fa498ad, "class_create" },
+	{ 0xfbe72bcf, "device_create" },
+	{ 0x9a631eb1, "kmalloc_caches" },
+	{ 0x726340e0, "kmalloc_trace" },
+	{ 0x6091b333, "unregister_chrdev_region" },
+	{ 0xa4e5832c, "class_destroy" },
+	{ 0x37a0cba, "kfree" },
+	{ 0xb86bb5ac, "device_destroy" },
+	{ 0xa4afd25e, "cdev_del" },
+	{ 0x6cbbfc54, "__arch_copy_to_user" },
+	{ 0x12a4e128, "__arch_copy_from_user" },
+	{ 0xdcb764ad, "memset" },
+	{ 0x67a35d9, "module_layout" },
+};
 
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "2F65AB51C7266B5800BD653");
+MODULE_INFO(srcversion, "5ABBAE34744F40E93E8BCCF");
