@@ -1,20 +1,28 @@
-#include <linux/kernel.h>
-#include <linux/init.h>
-#include <linux/module.h>
-#include <linux/kdev_t.h>
-#include <linux/fs.h>
-#include <linux/cdev.h>
-#include <linux/device.h>
+#include<linux/kernel.h>
+#include<linux/init.h>
+#include<linux/module.h>
+#include<linux/kdev_t.h>
+#include<linux/fs.h>
+#include<linux/cdev.h>
+#include<linux/device.h>
 #include<linux/slab.h>                 //kmalloc()
 #include<linux/uaccess.h>              //copy_to/from_user()
-#include <linux/err.h>
-#include <linux/export.h>
-#include <linux/ioctl.h>
+#include<linux/err.h>
+#include<linux/export.h>
+#include<linux/ioctl.h>
 #include<linux/proc_fs.h>   
+#include<linux/wait.h>
+#include<linux/kthread.h>
 
 
 #define WR_VALUE _IOW('a','b',int32_t*)
 #define RD_VALUE _IOR('a','b',int32_t*)
+
+DECLARE_WAIT_QUEUE_HEAD(wait_queue_etx);
+
+uint32_t read_count=0;
+static struct task_struct *wait_thread;
+int wait_queue_flag = 0;
 
 #define mem_size   1024
 dev_t dev=0;
@@ -65,14 +73,14 @@ static struct proc_ops proc_fops = {
 
 
 /* this will support for kernal version v5.5
-Because the API proc_create() changed in kernel above v5.5.
-static struct file_operations proc_fops = {
-        .open = open_proc,
-        .read = read_proc,
-        .write = write_proc,
-        .release = release_proc
-};
-*/
+   Because the API proc_create() changed in kernel above v5.5.
+   static struct file_operations proc_fops = {
+   .open = open_proc,
+   .read = read_proc,
+   .write = write_proc,
+   .release = release_proc
+   };
+ */
 
 
 static int open_proc(struct inode *inode, struct file *file)
@@ -177,6 +185,25 @@ static ssize_t etx_write(struct file *filp, const char __user *buf, size_t len, 
 }//etx_write
 
 
+static int wait_function(void *unused)
+{
+    while(1)
+    {
+        pr_info("waiting for event in waitqueue thread\n");
+        wait_event_interruptible(wait_queue_etx, wait_queue_flag != 0);
+        if(wait_queue_flag == 2)
+        {
+            pr_info("Event come from Exit function\n");
+            return 0;
+        }
+        pr_info("Event come from Read function -%d\n", ++read_count);
+        wait_queue_flag=0;
+    }
+    do_exit(0);
+    return 0;
+}
+
+
 static int __init etx_driver_init(void)
 {
     if((alloc_chrdev_region(&dev, 0,1, "etx_dev"))<0)
@@ -214,7 +241,7 @@ static int __init etx_driver_init(void)
     }
     //creating proc enrty under /proc/my_etx
     proc_create("etx_proc_entry", 0666, parent, &proc_fops);
-    
+
     // kernel memory allocation 
     if((kernel_buffer = kmalloc(mem_size, GFP_KERNEL)) == 0)
     {
@@ -222,6 +249,19 @@ static int __init etx_driver_init(void)
         goto r_device;
     }
     //strcpy(kernel_buffer, "hello_world");
+
+    //initialize wait queue
+    init_waitqueue_head(&wait_queue_etx);
+    wait_thread = kthread_create(wait_function, NULL, "waitThread");
+    if(wait_thread)
+    {
+        pr_info("Thread create successfully\n");
+        wake_up_process(wait_thread);
+    }
+    else
+    {
+        pr_info("Thread creation is failed!\n");
+    }
 
     pr_info("Device driver insert done...\n");
     return 0;
@@ -238,6 +278,8 @@ r_class:
 
 void __exit etx_driver_exit(void)
 {
+    wait_queue_flag=2;
+    wake_up_interruptible(&wait_queue_etx);
     kfree(kernel_buffer);
     device_destroy(dev_class, dev);
     class_destroy(dev_class);
