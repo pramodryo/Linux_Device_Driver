@@ -30,8 +30,8 @@ int main()
 
     while(1) {
         printf("****Please Enter the Option******\n");
-        printf("        1. Write               \n");
-        printf("        2. Read                 \n");
+        printf("        1. Write string         \n");
+        printf("        2. Read string          \n");
         printf("        3. Exit                 \n");
         printf("        4. Write In ioctl       \n");
         printf("        5. read from ioctl       \n");
@@ -63,7 +63,7 @@ int main()
             case '4':
                 {
                     printf("Enter the value to be write in ioctl\n");
-                    scanf(" %c", &ioctl_num);
+                    scanf(" %d", &ioctl_num);
                     ioctl(fd, WR_VALUE, (int32_t*)&ioctl_num);
                 }break;
             case '5':

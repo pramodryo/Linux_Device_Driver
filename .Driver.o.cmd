@@ -970,6 +970,8 @@ deps_/home/brahma/Pramod_Git/Linux_Device_Driver/Driver.o := \
   /usr/src/linux-headers-6.6.51+rpt-common-rpi/include/linux/device/driver.h \
   /usr/src/linux-headers-6.6.51+rpt-common-rpi/arch/arm64/include/asm/device.h \
   /usr/src/linux-headers-6.6.51+rpt-common-rpi/include/linux/pm_wakeup.h \
+  /usr/src/linux-headers-6.6.51+rpt-common-rpi/include/linux/proc_fs.h \
+    $(wildcard include/config/PROC_PID_ARCH_STATUS) \
 
 /home/brahma/Pramod_Git/Linux_Device_Driver/Driver.o: $(deps_/home/brahma/Pramod_Git/Linux_Device_Driver/Driver.o)
 
